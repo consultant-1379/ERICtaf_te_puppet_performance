@@ -1,0 +1,42 @@
+LoadPlugin "java"
+
+<Plugin "java">
+  JVMARG "-Djava.class.path=/usr/share/collectd/java/collectd-api.jar:/usr/share/collectd/java/generic-jmx.jar"
+  LoadPlugin "org.collectd.java.GenericJMX"
+  <Plugin "GenericJMX">
+
+    <%# defining managed beans to collect, wildcards can be used, e.g. 'java.lang:type=MemoryPool,*' %>
+    <% counter = 0 %>
+    <% @jmx_mbeans.each do |jmx_mbean| -%>
+    <MBean "mbean-<%= counter %>">
+      ObjectName "<%= jmx_mbean %>"
+      InstancePrefix "<%= jmx_prefixes[counter] %>"
+
+      <% if jmx_mbeans_names[counter] != '' %>
+      InstanceFrom "<%= jmx_mbeans_names[counter] %>"
+      <% end %>
+
+      <Value>
+        Type "gauge"
+        Table <%= jmx_tables[counter] %>
+        Attribute <%= jmx_attributes[counter] %>
+      </Value>
+    </MBean>
+    <% counter += 1 %>
+    <% end -%>
+
+    <Connection>
+      Host "<%= host_name %>"
+      ServiceURL "service:jmx:rmi:///jndi/rmi://<%= jmx_host %>:<%= jmx_port %>/jmxrmi"
+      User "<%= jmx_user %>"
+      Password "<%= jmx_password %>"
+
+      <%# selecting every bean defined above %>
+      <% counter = 0 %>
+      <% @jmx_mbeans.each do |jmx_mbean| -%>
+      Collect "mbean-<%= counter %>"
+      <% counter += 1 %>
+      <% end -%>
+    </Connection>
+  </Plugin>
+</Plugin>

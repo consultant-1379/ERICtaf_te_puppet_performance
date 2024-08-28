@@ -1,0 +1,4 @@
+%_httpproxy www-proxy.ericsson.se
+%_httpport 8080
+%_ftpproxy www-proxy.ericsson.se
+%_ftpport 8080

@@ -1,0 +1,7 @@
+:backends:
+  - yaml
+:yaml:
+  :datadir: /etc/puppet/hiera_data/
+:hierarchy:
+  - performance
+:logger: console

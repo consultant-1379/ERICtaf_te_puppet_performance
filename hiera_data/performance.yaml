@@ -1,0 +1,52 @@
+#IMPORTANT! DON'T USE TABS TO INDENT
+
+#GATEWAY
+gateway_host: atvts435.athtem.eei.ericsson.se   #Gateway host of vAPP
+
+#NEXUS
+nexus_api_url: https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/service/local/artifact/maven/redirect?r=releases
+te_group: com.ericsson.cifwk.taf.executor
+
+te_saiku_version: 1.0.46
+te_metrics_dwh_version: 1.0.46
+
+#IP
+ip_graphite: 192.168.0.206                      #vApp Node IP with Graphite
+ip_saiku: 192.168.0.207                         #vApp Node IP with Saiku
+ip_grafana: 192.168.0.206                      #vApp Node IP with Grafana
+ip_elasticsearch: 192.168.0.206                 #vApp Node IP with Elastic search
+
+#PORTS, used in routing and firewall configuration
+port_graphite: 8081
+port_saiku: 8082
+port_grafana: 8084
+port_elasticsearch: 9200
+port_rabbitmq: 5672
+port_rabbitmq_cli: 15672
+
+#PROXY
+common_proxy_host: 'atproxy1.athtem.eei.ericsson.se'
+common_proxy_port: '3128'
+common_http_proxy: 'www-proxy.ericsson.se:8080' #Used by Graphite
+
+
+#MYSQL DB (Used in Saiku & Metrics DWH module)
+te_mysql_db_host: 'localhost'
+te_mysql_db_name: 'taf_performance'
+te_mysql_db_user: 'saiku_agent'
+te_mysql_db_password: 'password'
+
+#SAIKU
+te_saiku_tomcat_version: '7.0.67' #Ensure version is available at http://apache.mirrors.spacedump.net/tomcat/tomcat-7/
+te_saiku_webapp: 'http://meteorite.bi/downloads/saiku-webapp-2.6.war'
+te_saiku_ui: 'http://meteorite.bi/downloads/saiku-ui-2.6.war'
+
+te_saiku_artifact_id: te-metrics-olap-schema
+te_saiku_metrics_olap_schema_url: "%{hiera('nexus_api_url')}&g=%{hiera('te_group')}&a=%{hiera('te_saiku_artifact_id')}&v=%{hiera('te_saiku_version')}&e=jar" #jar extension
+
+#METRICS DWH
+te_metrics_dwh_artifact_id: te-metrics-dwh
+te_metrics_dwh_distribution_url: "%{hiera('nexus_api_url')}&g=%{hiera('te_group')}&a=%{hiera('te_metrics_dwh_artifact_id')}&v=%{hiera('te_metrics_dwh_version')}&e=zip&c=distribution" #zip extension
+te_metrics_dwh_target_dir: '/opt/ericsson/'
+te_metrics_dwh_amqp_url: 'amqp://atclvm793.athtem.eei.ericsson.se'
+te_metrics_dwh_amqp_exchange: 'taf.samples'

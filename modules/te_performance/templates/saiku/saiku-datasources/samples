@@ -1,0 +1,7 @@
+type=OLAP
+name=samples
+driver=mondrian.olap4j.MondrianOlap4jDriver
+location=jdbc:mondrian:Jdbc=<%= @db_url %>;Catalog=res:samples/samples.xml;JdbcDrivers=com.mysql.jdbc.Driver;
+#username=
+#password=
+

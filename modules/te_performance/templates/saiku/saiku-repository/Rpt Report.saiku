@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Query name="93F27CD8-7E94-AB5C-AC3C-70770D0711B8" type="QM" connection="samples" cube="[Performance Testing]" catalog="TAF Performance Metrics" schema="TAF Performance Metrics">
+  <QueryModel>
+    <Axes>
+      <Axis location="ROWS" nonEmpty="true">
+        <Dimensions>
+          <Dimension name="Target" hierarchizeMode="PRE" hierarchyConsistent="true">
+            <Inclusions>
+              <Selection dimension="Target" type="level" node="[Target.Target Hierarchy].[URI]" operator="MEMBERS" />
+            </Inclusions>
+            <Exclusions />
+          </Dimension>
+        </Dimensions>
+      </Axis>
+      <Axis location="COLUMNS" nonEmpty="true">
+        <Dimensions>
+          <Dimension name="Measures" hierarchizeMode="PRE" hierarchyConsistent="true">
+            <Inclusions>
+              <Selection dimension="Measures" type="member" node="[Measures].[Success Count]" operator="MEMBER" />
+              <Selection dimension="Measures" type="member" node="[Measures].[Error Count]" operator="MEMBER" />
+              <Selection dimension="Measures" type="member" node="[Measures].[Avg Response Time]" operator="MEMBER" />
+              <Selection dimension="Measures" type="member" node="[Measures].[Min Response Time]" operator="MEMBER" />
+              <Selection dimension="Measures" type="member" node="[Measures].[Max Response Time]" operator="MEMBER" />
+              <Selection dimension="Measures" type="member" node="[Measures].[Standard Deviation]" operator="MEMBER" />
+            </Inclusions>
+            <Exclusions />
+          </Dimension>
+        </Dimensions>
+      </Axis>
+      <Axis location="FILTER" nonEmpty="false" />
+    </Axes>
+  </QueryModel>
+  <MDX>SELECT
+NON EMPTY {Hierarchize({{[Measures].[Success Count], [Measures].[Error Count], [Measures].[Avg Response Time], [Measures].[Min Response Time], [Measures].[Max Response Time], [Measures].[Standard Deviation]}})} ON COLUMNS,
+NON EMPTY {Hierarchize({[Target.Target Hierarchy].[URI].Members})} ON ROWS
+FROM [Performance Testing]</MDX>
+  <Totals />
+  <Properties>
+    <Property name="saiku.ui.render.mode" value="table" />
+    <Property name="org.saiku.query.explain" value="true" />
+    <Property name="saiku.olap.query.nonempty.columns" value="true" />
+    <Property name="saiku.olap.query.nonempty.rows" value="true" />
+    <Property name="org.saiku.connection.scenario" value="false" />
+    <Property name="saiku.olap.query.automatic_execution" value="true" />
+    <Property name="saiku.olap.query.drillthrough" value="true" />
+    <Property name="saiku.olap.query.filter" value="true" />
+    <Property name="saiku.olap.query.limit" value="true" />
+    <Property name="saiku.olap.query.nonempty" value="true" />
+  </Properties>
+</Query>
